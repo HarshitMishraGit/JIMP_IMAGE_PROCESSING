@@ -10,17 +10,17 @@ function Home() {
         
       };
   
-
     const [image, setimage] = useState('');
     const onSubmit = (data) => {
-        console.log(data)
+      console.log(data)
+      // ============>>>>>>>> It is very important to provide responseType so that we can convert the file to original form===================//
       axios.post("http://localhost:3001", data, { responseType:'blob'}).then((res) => {
       var binaryData = [];
       binaryData.push(res.data);
-     const url= URL.createObjectURL(new Blob(binaryData, {type: "image"}))
+     const url= URL.createObjectURL(new Blob(binaryData, {type: "image/png"}))
         // const url = URL.createObjectURL(res.data);
         console.log("This is url ", url)
-        console.log("This is response ",res.data)
+        // console.log("This is response ",res.data)
         setimage(url)
       }).catch(err => {
         console.log(err)
@@ -52,8 +52,8 @@ function Home() {
           
 
           <div>This is the response
-          
-          <img src={image}></img>
+        <img src={image} className="my-2 shadow-lg shadow-gray-500"></img>
+        <a href={image} download className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 rounded-lg text-white active:bg-gradient-to-r-from-indigo-200-via-purple-200-to-pink-200  font-bold uppercase text-sm px-6 py-2  shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150">download</a>
           </div>
     </div>
   )
