@@ -45,6 +45,7 @@ app.post('/', jsonParser, async (req, res) => {
     //         alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER,
     //         alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE
     //       },
+  
     //       600,
     //       450
     // ); 
