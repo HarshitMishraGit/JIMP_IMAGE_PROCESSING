@@ -14,7 +14,7 @@ function Home() {
     const onSubmit = (data) => {
       console.log(data)
       // ============>>>>>>>> It is very important to provide responseType so that we can convert the file to original form===================//
-      axios.post("http://localhost:3001", data, { responseType:'blob'}).then((res) => {
+      axios.post("http://localhost:3001/", data, { responseType:'blob'}).then((res) => {
       var binaryData = [];
       binaryData.push(res.data);
      const url= URL.createObjectURL(new Blob(binaryData, {type: "image/png"}))
