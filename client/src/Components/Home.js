@@ -4,6 +4,7 @@ import axios from 'axios';
 
 import { Formik, Form, Field } from "formik";
 function Home() {
+  const fileinput = useRef(null)
   const [filevalue, setfilevalue] = useState(null);
   const fileHandeler = (e) => {
     setfilevalue(e.target.files[0])
@@ -12,7 +13,10 @@ function Home() {
       text: "",
      
         
-      };
+  };
+  const UploadImageHandeler = () => {
+    fileinput.current.click()
+  }
     // const fileref = useRef(null)
     const [image, setimage] = useState('');
   const onSubmit = (data) => {
@@ -48,18 +52,23 @@ function Home() {
       
       };
   return (
-      <div className='w-1/3 flex flex-col justify-center mx-auto my-24 space-y-4'>
+      <div className='w-[90%] sm:w-1/3 flex flex-col justify-center mx-auto my-24 space-y-4'>
           <Formik initialValues={initialValues} onSubmit={onSubmit}  >
         <Form className='space-y-4'>
               
                 
-                <Field type="text" id="inputCreatePost" className="focus:outline-none focus:ring-offset-0 text-white placeholder-gray-200 text-sm rounded-lg  block w-full p-2.5 bg-gradient-to-r from-indigo-700 via-purple-700 to-pink-700" placeholder="" name="text" />
+                <Field type="text" id="inputCreatePost" className="focus:outline-none focus:ring-offset-0 text-white placeholder-gray-200 text-sm rounded-lg  block w-full p-2.5 bg-gradient-to-r from-indigo-700 via-purple-700 to-pink-700" placeholder="Enter Your Name" name="text" />
                
                                
-                <input type="file" id="inputCreatePost" className="focus:outline-none focus:ring-offset-0 text-white placeholder-gray-200 text-sm rounded-lg  block w-full p-2.5 bg-gradient-to-r from-indigo-700 via-purple-700 to-pink-700" placeholder=""  onChange={fileHandeler} />
+                <input type="file" id="inputCreatePost" className=" hidden focus:outline-none focus:ring-offset-0 text-white placeholder-gray-200 text-sm rounded-lg  w-full p-2.5 bg-gradient-to-r from-indigo-700 via-purple-700 to-pink-700" placeholder="" ref={fileinput}  onChange={fileHandeler} />
                
                                
-                       
+                <button
+                    className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 rounded-lg text-white active:bg-gradient-to-r-from-indigo-200-via-purple-200-to-pink-200  font-bold uppercase text-sm px-6 py-2  shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    type="submit" onClick={UploadImageHandeler}
+                  >
+                   Upload Image
+                  </button>      
                   <button
                     className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 rounded-lg text-white active:bg-gradient-to-r-from-indigo-200-via-purple-200-to-pink-200  font-bold uppercase text-sm px-6 py-2  shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="submit"
