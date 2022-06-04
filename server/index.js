@@ -14,7 +14,11 @@ app.listen(3001, (req, res) => {
     console.log("App is running on port 3001")
 })
 // logic
-
+const geturl=(base64encodeddata) => {
+  const removestr = base64encodeddata.indexOf(',')
+  const strlength=base64encodeddata.length
+  return base64encodeddata.substr(removestr,strlength)
+}
 app.post('/', jsonParser,async (req, res) => {
   const data = req.body;
   
@@ -30,9 +34,10 @@ app.post('/', jsonParser,async (req, res) => {
   // console.log("This is photourl",photourl)
   // it will give me correct url
     //=== we need only data form data:image/png;base64, needed to remove from string
-  const removestr = (data.pic).indexOf(',')
-  const strlength=(data.pic).length
-    const validurl1=(data.pic).substr(removestr,strlength)
+  // const removestr = (data.pic).indexOf(',')
+  // const strlength=(data.pic).length
+  //   const validurl1=(data.pic).substr(removestr,strlength)
+  const validurl1=geturl(data.pic)
     // Reading image
     const image = await Jimp.read('./img/background.png');
     

@@ -19,30 +19,31 @@ function Home() {
     // now we have to read the blob in text
     const reader = new FileReader();
     reader.readAsDataURL(filevalue)
-    reader.onload =() => {
+    reader.onload =async () => {
       console.log(reader.result)
       data.pic = reader.result;
       // var picbinarydata = []
       // picbinarydata.push(reader.result)
       // const picurl = URL.createObjectURL(new Blob(picbinarydata, { type: "image/png" }))
       // data.pic = picurl;
+        // ============>>>>>>>> It is very important to provide responseType so that we can convert the file to original form===================//
+        axios.post("http://localhost:3001/", data, { responseType:'blob'}).then((res) => {
+          var binaryData = [];
+          binaryData.push(res.data);
+         const url= URL.createObjectURL(new Blob(binaryData, {type: "image/png"}))
+            // const url = URL.createObjectURL(res.data);
+            console.log("This is url ", url)
+            // console.log("This is response ",res.data)
+            setimage(url)
+          }).catch(err => {
+            console.log(err)
+          })
+        
     }
     console.log(data)
     
     
     
-      // ============>>>>>>>> It is very important to provide responseType so that we can convert the file to original form===================//
-      axios.post("http://localhost:3001/", data, { responseType:'blob'}).then((res) => {
-      var binaryData = [];
-      binaryData.push(res.data);
-     const url= URL.createObjectURL(new Blob(binaryData, {type: "image/png"}))
-        // const url = URL.createObjectURL(res.data);
-        console.log("This is url ", url)
-        // console.log("This is response ",res.data)
-        setimage(url)
-      }).catch(err => {
-        console.log(err)
-      })
     
       
       };
