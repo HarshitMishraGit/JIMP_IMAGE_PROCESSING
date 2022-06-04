@@ -1,18 +1,36 @@
-import React,{useState} from 'react'
+import React,{useRef, useState} from 'react'
 import axios from 'axios';
 
 
 import { Formik, Form, Field } from "formik";
 function Home() {
-
+  const [filevalue, setfilevalue] = useState(null);
+  const fileHandeler = (e) => {
+    setfilevalue(e.target.files[0])
+  }
     const initialValues = {
-      text:""
+      text: "",
+     
         
       };
-  
+    // const fileref = useRef(null)
     const [image, setimage] = useState('');
-    const onSubmit = (data) => {
-      console.log(data)
+  const onSubmit = (data) => {
+    // now we have to read the blob in text
+    const reader = new FileReader();
+    reader.readAsDataURL(filevalue)
+    reader.onload =() => {
+      console.log(reader.result)
+      data.pic = reader.result;
+      // var picbinarydata = []
+      // picbinarydata.push(reader.result)
+      // const picurl = URL.createObjectURL(new Blob(picbinarydata, { type: "image/png" }))
+      // data.pic = picurl;
+    }
+    console.log(data)
+    
+    
+    
       // ============>>>>>>>> It is very important to provide responseType so that we can convert the file to original form===================//
       axios.post("http://localhost:3001/", data, { responseType:'blob'}).then((res) => {
       var binaryData = [];
@@ -25,11 +43,7 @@ function Home() {
       }).catch(err => {
         console.log(err)
       })
-        // .then((blob) => {
-        // const imageObjectUrl = URL.createObjectURL(blob);
-        // setimage(imageObjectUrl)
-      // });
-      
+    
       
       };
   return (
@@ -39,7 +53,11 @@ function Home() {
               
                 
                 <Field type="text" id="inputCreatePost" className="focus:outline-none focus:ring-offset-0 text-white placeholder-gray-200 text-sm rounded-lg  block w-full p-2.5 bg-gradient-to-r from-indigo-700 via-purple-700 to-pink-700" placeholder="" name="text" />
-                                        
+               
+                               
+                <input type="file" id="inputCreatePost" className="focus:outline-none focus:ring-offset-0 text-white placeholder-gray-200 text-sm rounded-lg  block w-full p-2.5 bg-gradient-to-r from-indigo-700 via-purple-700 to-pink-700" placeholder=""  onChange={fileHandeler} />
+               
+                               
                        
                   <button
                     className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 rounded-lg text-white active:bg-gradient-to-r-from-indigo-200-via-purple-200-to-pink-200  font-bold uppercase text-sm px-6 py-2  shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"

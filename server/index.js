@@ -5,21 +5,41 @@ const path = require('path');
 const fs = require('fs')
 const bodyParser = require('body-parser')
 const jsonParser = bodyParser.json();// parsing the json object to it
-const cors = require('cors')
+const cors = require('cors');
+
+// to limit the size of the request
+app.use(bodyParser.json({ limit: "5mb", extended: true }));
 app.use(cors());//so that we can make api request to our own localhost
 app.listen(3001, (req, res) => {
-    console.log("App is runnign on port 3001")
+    console.log("App is running on port 3001")
 })
 // logic
 
-app.post('/', jsonParser, async (req, res) => {
-    const data = req.body;
-    console.log(data)
-    
+app.post('/', jsonParser,async (req, res) => {
+  const data = req.body;
+  
+  // console.log(data)
+  // if png text data is coming the
+      // const picbinarydata = []
+      // picbinarydata.push(data.pic)
+      // const picurl = URL.createObjectURL(new Blob(picbinarydata, { type: "image/png" }))
+
+    // taking the correct data
+  //   var str=(data.pic).split('');
+  // const photourl = (str.slice(5, str.length)).join('')
+  // console.log("This is photourl",photourl)
+  // it will give me correct url
+    //=== we need only data form data:image/png;base64, needed to remove from string
+  const removestr = (data.pic).indexOf(',')
+  const strlength=(data.pic).length
+    const validurl1=(data.pic).substr(removestr,strlength)
     // Reading image
     const image = await Jimp.read('./img/background.png');
-    const w=image.m
-    const photo=await (await Jimp.read('./img/fog.png')).resize(70,90)
+    
+  // Jimp.MIME_JPEG;
+  // const photo = (await Jimp.read(Buffer.from(photourl, 'base64'))).resize(70, 90)
+  const photo = (await Jimp.read(Buffer.from(validurl1,'base64'))).resize(70, 90)
+  // const photo = (await Jimp.read(Buffer.from((data.pic).replace(/^data:image\/png;base64,/, ""),'base64'))).resize(70, 90)
    // Defining the text font
     const font = await Jimp.loadFont(Jimp.FONT_SANS_32_BLACK);
     // image.print(font, 200, 200, data.text);
