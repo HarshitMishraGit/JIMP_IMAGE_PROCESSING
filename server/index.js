@@ -64,17 +64,31 @@ app.post('/', jsonParser,async (req, res) => {
         ); // prints 'Hello world!' on an image, middle and center-aligned, when x = 0 and y = 0
    
     // this will combine two images in one
-     image.composite(photo,500,70)
+  image.composite(photo, 500, 70)
+  // declare all characters
+const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+function generateString(length) {
+    let result = '';
+    const charactersLength = characters.length;
+    for ( let i = 0; i < length; i++ ) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+
+    return result;
+}
+
+ var randomstr=generateString(5)
    // Writing image after processing
-   await image.writeAsync('./resources/textOverlay.png');
+   await image.writeAsync(`./resources/textOverlay${randomstr}.png`);
 
 
     console.log("Image is processed succesfully");
     // res.sendFile('C:/Users/harsh/Desktop/Programs/Node_Workspace/new/server/resources/textOverlay.png')
-  res.sendFile(path.join(__dirname + '/resources/textOverlay.png')) 
+  res.sendFile(path.join(__dirname + `/resources/textOverlay${randomstr}.png`)) 
  // delete file after sending response 
   setTimeout(() => {
-  fs.unlink(path.join(__dirname + '/resources/textOverlay.png'), function(){
+  fs.unlink(path.join(__dirname + `/resources/textOverlay${randomstr}.png`), function(){
     console.log("File was deleted") // Callback
 });
  }, 1000);

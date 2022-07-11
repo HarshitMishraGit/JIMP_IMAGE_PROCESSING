@@ -6,8 +6,10 @@ import { Formik, Form, Field } from "formik";
 function Home() {
   const fileref = useRef(null)
   const [filevalue, setfilevalue] = useState(null);
+  const [filename, setfilename] = useState('');
   const fileHandeler = (e) => {
     setfilevalue(e.target.files[0])
+    setfilename(e.target.files[0].name)
     let size = e.target.files[0].size
     console.log("The size of the file is ",size)
   }
@@ -35,7 +37,7 @@ function Home() {
       // const picurl = URL.createObjectURL(new Blob(picbinarydata, { type: "image/png" }))
       // data.pic = picurl;
         // ============>>>>>>>> It is very important to provide responseType so that we can convert the file to original form===================//
-        axios.post("https://imageapi.harshitmishra.me/", data, { responseType:'blob'}).then((res) => {
+        axios.post("http://localhost:3001/", data, { responseType:'blob'}).then((res) => {
           var binaryData = [];
           binaryData.push(res.data);
          const url= URL.createObjectURL(new Blob(binaryData, {type: "image/png"}))
@@ -64,24 +66,25 @@ function Home() {
         <Form className='space-y-4'>
               
                 
-                <Field type="text" id="inputCreatePost" className="focus:outline-none focus:ring-offset-0 text-white placeholder-gray-200 text-sm rounded-lg  block w-full p-2.5 bg-gradient-to-r from-indigo-700 via-purple-700 to-pink-700" placeholder="Enter Your Name" name="text" />
+                <Field type="text" id="inputCreatePost" className="focus:outline-none focus:ring-offset-0 text-white placeholder-gray-200 text-sm rounded-lg  block w-full p-2.5 bg-gradient-to-r from-indigo-700 via-purple-700 to-pink-700" placeholder="Enter Your Name" name="text"/>
                
                                
-                <input hidden type="file" id="" className=" focus:outline-none focus:ring-offset-0 text-white placeholder-gray-200 text-sm rounded-lg  w-full p-2.5 bg-gradient-to-r from-indigo-700 via-purple-700 to-pink-700" placeholder="" name='pic' ref={fileref}    onChange={fileHandeler} />
+                <input hidden type="file" id="" className=" focus:outline-none focus:ring-offset-0 text-white placeholder-gray-200 text-sm rounded-lg  w-full p-2.5 bg-gradient-to-r from-indigo-700 via-purple-700 to-pink-700 " placeholder="" name='pic' ref={fileref}    onChange={fileHandeler} />
                
                                
                 <button
-                    className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 rounded-lg text-white active:bg-gradient-to-r-from-indigo-200-via-purple-200-to-pink-200  font-bold uppercase text-sm px-6 py-2  shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 rounded-lg text-white  font-bold uppercase text-sm px-6 py-2  shadow hover:shadow-lg  hover:shadow-black outline-none mr-1 mb-1 ease-linear transition-all duration-150 focus:ring-2 focus:shadow-md focus:shadow-gray-600 focus:ring-purple-600"
                     type="submit" onClick={UploadImageHandeler}
                   >
                    Upload Image
                   </button>      
                   <button
-                    className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 rounded-lg text-white active:bg-gradient-to-r-from-indigo-200-via-purple-200-to-pink-200  font-bold uppercase text-sm px-6 py-2  shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 rounded-lg text-white active:bg-gradient-to-r-from-indigo-200-via-purple-200-to-pink-200  font-bold uppercase text-sm px-6 py-2  shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 hover:shadow-black focus:ring-2 focus:ring-purple-600 focus:shadow-md focus:shadow-gray-600"
                     type="submit" 
                   >
                     Save Changes
-                  </button>
+          </button>
+         {filename && <p className='text-sm -mt-10 font-bold'>Selected File :<span className='text-green-600'> {filename }</span> </p>}
           </Form>
           </Formik>
           
@@ -93,7 +96,7 @@ function Home() {
 {/* ======= */}
         <img src={image} className="my-2 shadow-lg shadow-gray-500"></img>
 {/* >>>>>>> netlify */}
-        <a href={image} download className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 rounded-lg text-white active:bg-gradient-to-r-from-indigo-200-via-purple-200-to-pink-200  font-bold uppercase text-sm px-6 py-2  shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150">download</a>
+        <a href={image} download className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 rounded-lg text-white active:bg-gradient-to-r-from-indigo-200-via-purple-200-to-pink-200  font-bold uppercase text-sm px-6 py-2  shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 hover:shadow-black focus:ring-2 focus:ring-purple-600 focus:shadow-md focus:shadow-gray-600">download</a>
           </div>
     </div>
   )
